@@ -16,22 +16,10 @@ addBtn.addEventListener("click", () => {
     newCheckbox.classList.add("task-complete");
 
     let editBtn = document.createElement("i");
-    editBtn.classList.add(
-      "btn",
-      "btn-success",
-      "fa-solid",
-      "fa-pen-to-square",
-      "edit-btn"
-    );
+    editBtn.classList.add("btn", "fa-solid", "fa-pen-to-square", "edit-btn");
 
     let delBtn = document.createElement("i");
-    delBtn.classList.add(
-      "btn",
-      "btn-danger",
-      "fa-solid",
-      "fa-trash",
-      "del-btn"
-    );
+    delBtn.classList.add("btn", "fa-solid", "fa-trash", "del-btn");
 
     newLi.prepend(newCheckbox);
     newLi.append(newSpan, editBtn, delBtn);
