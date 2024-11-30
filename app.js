@@ -40,3 +40,9 @@ todoList.addEventListener("change", (event) => {
     }
   }
 });
+
+todoList.addEventListener("click", (event) => {
+  if (event.target.classList.contains("del-btn")) {
+    event.target.parentElement.remove();
+  }
+});
