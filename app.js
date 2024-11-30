@@ -16,10 +16,22 @@ addBtn.addEventListener("click", () => {
     newCheckbox.classList.add("task-complete");
 
     let editBtn = document.createElement("i");
-    editBtn.classList.add("btn", "btn-success", "fa-solid", "fa-pen-to-square");
+    editBtn.classList.add(
+      "btn",
+      "btn-success",
+      "fa-solid",
+      "fa-pen-to-square",
+      "edit-btn"
+    );
 
     let delBtn = document.createElement("i");
-    delBtn.classList.add("btn", "btn-danger", "fa-solid", "fa-trash");
+    delBtn.classList.add(
+      "btn",
+      "btn-danger",
+      "fa-solid",
+      "fa-trash",
+      "del-btn"
+    );
 
     newLi.prepend(newCheckbox);
     newLi.append(newSpan, editBtn, delBtn);
@@ -49,10 +61,46 @@ todoList.addEventListener("change", (event) => {
 });
 
 todoList.addEventListener("click", (event) => {
-  if (event.target.classList.contains("fa-trash")) {
+  if (event.target.classList.contains("del-btn")) {
     const liToRemove = event.target.closest("li");
     if (liToRemove) {
       liToRemove.remove();
     }
+  }
+});
+
+todoList.addEventListener("click", (event) => {
+  if (event.target.classList.contains("edit-btn")) {
+    const editBtn = event.target;
+    const delBtn = editBtn.nextElementSibling;
+    const replaceSpan = editBtn.previousElementSibling;
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.value = replaceSpan.innerText;
+    replaceSpan.replaceWith(inputField);
+
+    const okBtn = document.createElement("button");
+    okBtn.classList.add("btn", "btn-primary");
+    okBtn.innerText = "✓";
+    editBtn.replaceWith(okBtn);
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.classList.add("btn", "btn-warning");
+    cancelBtn.innerText = "✕";
+    delBtn.replaceWith(cancelBtn);
+
+    cancelBtn.addEventListener("click", () => {
+      inputField.replaceWith(replaceSpan);
+      cancelBtn.replaceWith(delBtn);
+      okBtn.replaceWith(editBtn);
+    });
+
+    okBtn.addEventListener("click", () => {
+      replaceSpan.innerText = inputField.value;
+      inputField.replaceWith(replaceSpan);
+      okBtn.replaceWith(editBtn);
+      cancelBtn.replaceWith(delBtn);
+    });
   }
 });
