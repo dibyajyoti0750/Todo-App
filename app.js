@@ -1,48 +1,58 @@
 const input = document.querySelector("#todo-input");
 const addBtn = document.querySelector("#add-button");
 const todoList = document.querySelector("#todo-list");
-const todoItem = document.querySelector(".todo-item");
-const listStyle = document.querySelector("#list-style");
+const errorMsg = document.querySelector(".ms-1");
 
 addBtn.addEventListener("click", () => {
-  let newLi = document.createElement("li");
-  newLi.classList.add("todo-item");
-  newLi.innerText = input.value;
+  if (input.value.trim()) {
+    let newLi = document.createElement("li");
+    newLi.classList.add("todo-item");
 
-  let newCheckbox = document.createElement("input");
-  newCheckbox.type = "checkbox";
-  newCheckbox.classList.add("task-complete");
+    let newSpan = document.createElement("span");
+    newSpan.innerText = input.value;
 
-  let delBtn = document.createElement("button");
-  delBtn.classList.add("del-btn");
-  delBtn.innerText = "Delete";
+    let newCheckbox = document.createElement("input");
+    newCheckbox.type = "checkbox";
+    newCheckbox.classList.add("task-complete");
 
-  let editBtn = document.createElement("button");
-  editBtn.classList.add("edit-btn");
-  editBtn.innerText = "Edit";
+    let editBtn = document.createElement("i");
+    editBtn.classList.add("btn", "btn-success", "fa-solid", "fa-pen-to-square");
 
-  newLi.prepend(newCheckbox);
-  newLi.append(editBtn);
-  newLi.append(delBtn);
+    let delBtn = document.createElement("i");
+    delBtn.classList.add("btn", "btn-danger", "fa-solid", "fa-trash");
 
-  todoList.appendChild(newLi);
+    newLi.prepend(newCheckbox);
+    newLi.append(newSpan, editBtn, delBtn);
 
-  input.value = "";
+    todoList.appendChild(newLi);
+
+    input.value = "";
+  } else {
+    errorMsg.innerText = "Please enter a task!";
+    errorMsg.style.color = "red";
+
+    setTimeout(() => {
+      errorMsg.innerText = "";
+    }, 2000);
+  }
 });
 
 todoList.addEventListener("change", (event) => {
   if (event.target.classList.contains("task-complete")) {
-    const theListItem = event.target.closest(".todo-item");
+    const task = event.target.closest("li").querySelector("span");
     if (event.target.checked) {
-      theListItem.style.textDecoration = "line-through";
+      task.style.textDecoration = "line-through";
     } else {
-      theListItem.style.textDecoration = "none";
+      task.style.textDecoration = "none";
     }
   }
 });
 
 todoList.addEventListener("click", (event) => {
-  if (event.target.classList.contains("del-btn")) {
-    event.target.parentElement.remove();
+  if (event.target.classList.contains("fa-trash")) {
+    const liToRemove = event.target.closest("li");
+    if (liToRemove) {
+      liToRemove.remove();
+    }
   }
 });
